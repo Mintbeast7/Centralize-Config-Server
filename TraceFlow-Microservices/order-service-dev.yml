@@ -15,13 +15,12 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update        # dev only
-    show-sql: true            # dev only
+      ddl-auto: update   # dev only
+    show-sql: true       # dev only
     open-in-view: false
     properties:
       hibernate:
         format_sql: true
-    database-platform: org.hibernate.dialect.MySQLDialect
 
 # ==============================
 # EUREKA CONFIG
@@ -45,15 +44,16 @@ management:
         include: "*"
 
   tracing:
+    enabled: true
     sampling:
-      probability: 1.0   # dev ke liye 100%
+      probability: 1.0
 
   zipkin:
     tracing:
       endpoint: http://localhost:9411/api/v2/spans
 
 # ==============================
-# LOGGING (TraceId visible 🔥)
+# LOGGING (TraceId visible)
 # ==============================
 logging:
   pattern:
