@@ -15,29 +15,46 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: update        # dev only
+    show-sql: true            # dev only
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
 
+# ==============================
+# EUREKA CONFIG
+# ==============================
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://localhost:8788/eureka
     register-with-eureka: true
     fetch-registry: true
 
+# ==============================
+# ACTUATOR + ZIPKIN + TRACING
+# ==============================
 management:
-  tracing:
-    sampling:
-      probability: 1.0
-  zipkin:
-    tracing:
-      endpoint: http://localhost:9411/api/v2/spans
   endpoints:
     web:
       exposure:
         include: "*"
 
+  tracing:
+    sampling:
+      probability: 1.0   # dev ke liye 100%
+
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+# ==============================
+# LOGGING (TraceId visible 🔥)
+# ==============================
 logging:
   pattern:
-    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+    console: "%d{yyyy-MM-dd HH:mm:ss} %5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}] %logger{36} - %msg%n"
